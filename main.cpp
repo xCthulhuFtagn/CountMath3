@@ -114,7 +114,10 @@ int main(){
     for(auto& el : data[1]) el = f(el);
     NewtonPolinom(data);
     cout<<endl;
+    cout<<"Accuracy of Newton's Polinom in X* = 3/16*PI : "<<fabs(Newton(data, 3/16*M_PI) - f(3/16*M_PI)) << endl;
     LagrangePolinom(data);
+    cout<<endl;
+    cout<<"Accuracy of Lagrange's Polinom in X* = 3/16*PI : "<<fabs(Lagrange(data, 3/16*M_PI) - f(3/16*M_PI)) << endl;
     size_t n = data[0].size();
     vector<valarray<double>> matrix(n);
     for(size_t i = 0; i < n; ++i){
@@ -131,5 +134,14 @@ int main(){
         cout<<matrix[i][n]<<"*(x^"<<i<<")";
     }
     cout<<endl;
+    auto ans = [&matrix](double x){
+        double a = 0;
+        size_t n = matrix.size();
+        for( size_t i = 0; i < n; ++i){
+            a += pow(x, i)*matrix[i][n-1];
+        }
+        return a;
+    };
+    cout<<"Accuracy of Kanonic Polinom in X* = 3/16*PI : "<<fabs(ans(3/16*M_PI) - f(3/16*M_PI)) << endl;
     return 0;
 }
